@@ -4,11 +4,7 @@ import request from 'supertest';
 import { app } from '../app';
 
 declare global {
-  namespace NodeJS {
-    interface Global {
-      signin(): Promise<string[]>;
-    }
-  }
+  var signin: () => Promise<string[]>;
 }
 
 let mongo: any;
@@ -21,7 +17,7 @@ beforeAll(async () => {
 
   await mongoose.connect(mongoUri, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
   });
 });
 
@@ -46,7 +42,7 @@ global.signin = async () => {
     .post('/api/users/signup')
     .send({
       email,
-      password
+      password,
     })
     .expect(201);
 
